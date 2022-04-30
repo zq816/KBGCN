@@ -38,12 +38,12 @@ parser.add_argument('--ratio', type=float, default=1, help='size of training dat
 
 # music
 parser.add_argument('--dataset', type=str, default='music', help='which dataset to use')
-parser.add_argument('--n_epochs', type=int, default=15, help='the number of epochs')
-parser.add_argument('--neighbor_sample_size', type=int, default=8, help='the number of neighbors to be sampled')
-parser.add_argument('--dim', type=int, default=16, help='dimension of user and entity embeddings')
+parser.add_argument('--n_epochs', type=int, default=30, help='the number of epochs')
+parser.add_argument('--neighbor_sample_size', type=int, default=4, help='the number of neighbors to be sampled')
+parser.add_argument('--dim', type=int, default=64, help='dimension of user and entity embeddings')
 parser.add_argument('--batch_size', type=int, default=128, help='batch size')
-parser.add_argument('--l2_weight', type=float, default=1e-4, help='weight of l2 regularization')
-parser.add_argument('--lr', type=float, default=5e-4, help='learning rate')
+parser.add_argument('--l2_weight', type=float, default=6e-5, help='weight of l2 regularization')
+parser.add_argument('--lr', type=float, default=8e-4, help='learning rate')
 parser.add_argument('--ratio', type=float, default=1, help='size of training dataset')
 
 
