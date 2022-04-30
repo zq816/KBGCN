@@ -44,17 +44,8 @@ class  BiInteractionAggregator(Aggregator):
         super(BiInteractionAggregator, self).__init__(batch_size, dim, dropout, act, name)
 
         with tf.variable_scope(self.name):
-#            self.weights = tf.get_variable(
-#                shape=[self.dim, self.dim], initializer=tf.contrib.layers.xavier_initializer(), name='weights')
-#            self.weights1 = tf.get_variable(
-#                shape=[self.dim*2, self.dim*2], initializer=tf.contrib.layers.xavier_initializer(), name='weights1')
-#            self.weights2 = tf.get_variable(
-#                shape=[self.dim*2, self.dim*2], initializer=tf.contrib.layers.xavier_initializer(), name='weights2')
             self.weights3 = tf.get_variable(
                 shape=[self.dim*2, self.dim], initializer=tf.contrib.layers.xavier_initializer(), name='weights3')
-#           self.bias = tf.get_variable(shape=[self.dim], initializer=tf.zeros_initializer(), name='bias')
-#            self.bias1 = tf.get_variable(shape=[self.dim*2], initializer=tf.zeros_initializer(), name='bias1')
-#            self.bias2 = tf.get_variable(shape=[self.dim*2], initializer=tf.zeros_initializer(), name='bias2')
             self.bias3 = tf.get_variable(shape=[self.dim], initializer=tf.zeros_initializer(), name='bias3')
 
     def _call(self, self_vectors, neighbor_vectors, neighbor_relations, user_embeddings,neighbor_num):
@@ -64,8 +55,6 @@ class  BiInteractionAggregator(Aggregator):
         user_relation_scores = tf.concat([self_vectors1,neighbor_relations],axis = -1)
         #user_relation_scores = tf.reduce_mean(user_embeddings * neighbor_relations, axis=2)  # 128,1,1,16 * 128,1,8,16
         user_relation_scores = tf.reshape(user_relation_scores,[-1,self.dim*2])
-#        user_relation_scores = tf.nn.relu(tf.matmul(user_relation_scores, self.weights1) + self.bias1)
-#        user_relation_scores = tf.nn.relu(tf.matmul(tf.nn.relu(tf.matmul(user_relation_scores, self.weights2) + self.bias2),self.weights3)+self.bias3)
         user_relation_scores = tf.nn.relu(user_relation_scores)
         user_relation_scores = tf.nn.relu(tf.matmul(tf.nn.relu(user_relation_scores),self.weights3)+self.bias3)
         user_relation_scores_normalized = tf.nn.softmax(user_relation_scores, dim=-1)  # [-1,16]
@@ -73,8 +62,6 @@ class  BiInteractionAggregator(Aggregator):
         user_relation_scores_normalized = tf.expand_dims(user_relation_scores_normalized, axis=2)  # [128,-1,1,16]
         # [128,-1,1,16] * [128,-1,8,16] = 128,1,8,16 -->128,1,16
         neighbors_agg = tf.reduce_mean(user_relation_scores_normalized * neighbor_vectors, axis=2)
-#        neighbors_agg = (1/neighbor_num) * neighbor_vectors
-#        neighbors_agg = tf.reduce_mean(neighbors_agg,axis = 2)
         
         # self_vectors: [batch_size, -1, dim]
         # [-1, dim]
