@@ -27,6 +27,7 @@
   $ mv ml-20m/ratings.csv data/movie/
   $ cd src
   $ python preprocess.py -d movie
+  $ python main.py
   ```
 - Music
   - ```
