@@ -32,13 +32,5 @@
   - ```
     $ cd src
     $ python preprocess.py -d music
-    ```
-  - open `src/main.py` file;
-    
-  - comment the code blocks of parameter settings for MovieLens-20M;
-    
-  - uncomment the code blocks of parameter settings for Last.FM;
-    
-  - ```
     $ python main.py
     ```
